@@ -1,0 +1,16 @@
+/vendor/
+/composer.lock
+/phpunit.xml
+/.phpunit.cache/
+/.phpunit.result.cache
+/coverage/
+
+# Local IDE settings
+/.idea/
+/.vscode/
+
+# Local development tools
+/.php-cs-fixer.cache
+/.phpstan.cache/
+/phpstan.neon
+/.php-cs-fixer.php

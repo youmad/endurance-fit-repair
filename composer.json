@@ -1,0 +1,65 @@
+{
+  "name": "youmad/endurance-fit-repair",
+  "description": "Preserving FIT activity repair with JSON audit reports",
+  "type": "library",
+  "license": "MPL-2.0",
+  "require": {
+    "php": "^8.5",
+    "youmad/endurance-fit": "^0.1.2"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.95.25",
+    "phpstan/phpstan": "^2.2.13",
+    "phpstan/phpstan-phpunit": "^2.0.18",
+    "phpunit/phpunit": "^12.3"
+  },
+  "bin": [
+    "bin/fit-repair",
+    "bin/fit-repair-corpus",
+    "bin/fit-plan-local-time-zones"
+  ],
+  "suggest": {
+    "ext-zlib": "Read compressed reports and the offline geographic timezone database"
+  },
+  "autoload": {
+    "psr-4": {
+      "Youmad\\Endurance\\FitRepair\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Youmad\\Endurance\\FitRepair\\Tests\\": "tests/"
+    }
+  },
+  "archive": {
+    "exclude": [
+      "/vendor",
+      "/composer.lock",
+      "/phpunit.xml",
+      "/.phpunit.cache",
+      "/.phpunit.result.cache",
+      "/coverage",
+      "/.idea",
+      "/.vscode",
+      "/.php-cs-fixer.cache",
+      "/.phpstan.cache",
+      "/phpstan.neon",
+      "/.php-cs-fixer.php"
+    ]
+  },
+  "scripts": {
+    "test": "@php vendor/bin/phpunit --configuration phpunit.xml.dist",
+    "analyse": "@php vendor/bin/phpstan analyse --configuration=phpstan.dist.neon",
+    "cs:check": "@php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --dry-run --diff",
+    "cs:fix": "@php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php",
+    "check": [
+      "@composer validate --strict",
+      "@test",
+      "@analyse",
+      "@cs:check"
+    ]
+  },
+  "config": {
+    "sort-packages": true
+  }
+}

@@ -1,0 +1,12 @@
+includes:
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+
+parameters:
+    level: 6
+    paths:
+        - src/
+        - tests/
+        - bin/fit-repair
+        - bin/fit-repair-corpus
+        - bin/fit-plan-local-time-zones
+    tmpDir: .phpstan.cache
