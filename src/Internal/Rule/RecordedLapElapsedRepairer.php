@@ -243,8 +243,8 @@ final readonly class RecordedLapElapsedRepairer
                     throw new RepairFailed('Session rounding cannot replace missing native Lap segmentation.');
                 }
                 // Whole-second Lap clocks can accumulate rounding across a Session.
-                // Admit only a feasible partition inside the importer's two-second
-                // abutment resolution, never reduce any original active timer.
+                // Admit only a feasible partition within the two-second
+                // boundary tolerance, never reduce any original active timer.
                 $remaining = $sumElapsed - $span;
                 foreach ($elapsedRows as &$row) {
                     $m = $row['lap']['message'];

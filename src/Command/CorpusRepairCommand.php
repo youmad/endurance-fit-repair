@@ -7,7 +7,7 @@ namespace Youmad\Endurance\FitRepair\Command;
 use Youmad\Endurance\FitRepair\Corpus\CorpusRepairRunner;
 use Youmad\Endurance\FitRepair\Corpus\CorpusTimeZonePlan;
 use Youmad\Endurance\FitRepair\Corpus\CorpusWorkspace;
-use Youmad\Endurance\FitRepair\Corpus\TrackerCorpusValidator;
+use Youmad\Endurance\FitRepair\Corpus\ExternalCorpusValidator;
 use Youmad\Endurance\FitRepair\RepairFailed;
 
 final readonly class CorpusRepairCommand
@@ -26,7 +26,7 @@ Usage: fit-repair-corpus --corpus=PATH --workspace=PATH --validator=PATH [OPTION
 Options:
   --corpus=PATH       Original Activity corpus directory; never written.
   --workspace=PATH    Persistent workspace outside the corpus. Reuse to resume.
-  --validator=PATH    Tracker bin/validate-fit-corpus (PHP 8.5, ingest deps/profile).
+  --validator=PATH    External PHP batch validator; must support --describe.
   --baseline=PATH     Optional current corpus.validation.json or .json.gz.
                       Must come from the current validator; file hashes checked.
   --max-rounds=N      Changed groups per invocation (default 20).
@@ -123,7 +123,7 @@ HELP."\n");
             $report = (new CorpusRepairRunner())->run(
                 $options['corpus'],
                 $workspace,
-                new TrackerCorpusValidator($script),
+                new ExternalCorpusValidator($script),
                 static function (string $message) use ($stdout): void { fwrite($stdout, $message."\n"); },
                 $options['baseline'] ?? null,
                 maxRounds: (int) $limit,

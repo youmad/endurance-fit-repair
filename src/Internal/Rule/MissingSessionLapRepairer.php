@@ -164,9 +164,8 @@ final readonly class MissingSessionLapRepairer
             throw new RepairFailed('A synthetic Lap requires consistent Session timestamps, elapsed time, timer time and sport.');
         }
 
-        // The importer retains a Session's sub-second timer excess within its
-        // declared timeline resolution. Copy both precise source durations;
-        // the synthetic Lap must not reject them or round either value.
+        // Preserve both precise counters when their excess is less than the
+        // one-second timestamp resolution; do not round either source value.
 
         $last = null;
         $records = ['count' => 0, 'first' => null, 'first_sequence' => null, 'last' => null, 'last_sequence' => null];

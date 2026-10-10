@@ -30,7 +30,7 @@ changes and unsupported rules. The report path must not already exist.
 Memory usage depends on the decoded message count; large inputs may require a
 higher PHP `memory_limit`.
 
-Validate the result with your Activity import pipeline before accepting it.
+Check the resulting FIT with an independent validator before using it.
 Use `--help` for all command options.
 
 ## PHP API
@@ -50,7 +50,7 @@ SHA-256 hashes.
 Pass `localTimeOffset: 3600` when the activity's offset from UTC is known; in
 preserve mode it fills missing Activity local time.
 
-For automatic imports, `repairValidated()` selects the broader preserving rule
+With an external check, `repairValidated()` selects the broader preserving rule
 set from your validator's failures and revalidates every changed version:
 
 ```php
@@ -60,7 +60,7 @@ $result = (new ActivityRepairer())->repairValidated(
 );
 
 if ('PASS' === $result->report['activity_validation']) {
-    // Import $result->bytes.
+    $validatedBytes = $result->bytes;
 }
 ```
 
@@ -69,7 +69,7 @@ The callback receives FIT bytes and returns `['status' => 'PASS']` or
 Include the exception chain in outer-to-inner order. Failures must use the
 Activity validation messages recognized by the rules; unrelated failures stay
 unresolved. Throw operational errors from the callback so they propagate.
-Passing input is returned unchanged. An unresolved result must not be imported.
+Passing input is returned unchanged. FAILED means that unresolved problems remain.
 
 Optional policies: `reconcileSummaryClocks: true` enables corroborated native
 clock and summary inference; `inferTimeZone: true` tries recorded clock context,
@@ -84,14 +84,14 @@ file is created by this API.
 
 The corpus command provides a broader, iterative rule set. It attempts repairs
 only after relevant validation failures and validates each changed version.
-The bundled validator adapter requires a Tracker checkout with its PHP 8.5
-ingest dependencies and generated FIT Profile files configured.
+Supply an external PHP validator implementing the batch protocol below.
+The validator owns its rules, dependencies and FIT Profile configuration.
 
 ```bash
 vendor/bin/fit-repair-corpus \
     --corpus=/path/to/Activity \
     --workspace=/path/to/repair-workspace \
-    --validator=/path/to/tracker/bin/validate-fit-corpus
+    --validator=/path/to/validate-fit-corpus
 ```
 
 The workspace must be outside the original corpus. Reuse it to resume; originals
@@ -114,6 +114,24 @@ Inferred boundaries, synthetic summaries and compatibility placeholders are
 identified in the audit. `historical_accuracy: not_proven` means that a consistent
 result does not establish the exact original clocks, pauses or segmentation.
 PASS establishes acceptance by the configured validator.
+
+### External batch validator
+
+`--validator` names a PHP script with two invocations:
+
+- `php validator.php --describe` prints one JSON object containing
+  `schemaVersion: 1`, a SHA-256 `fingerprint` of its rules and configuration, and
+  `profileSha256` (a SHA-256 hash or `null` when no Profile is used).
+- `php validator.php INPUT_DIRECTORY NEW_OUTPUT_DIRECTORY` checks every FIT
+  and writes `corpus.validation.json` under the output directory. The JSON has
+  `schemaVersion: 1`, the same `profileSha256`, and a `results` array. Each result
+  contains `path` relative to the input directory, `sha256`, and `status`
+  (`PASS`, `FAILED` or `TOOL_ERROR`). For FAILED results, include an `errors`
+  array of exception `class` and `message` pairs in outer-to-inner order.
+
+Exit codes are 0 for all PASS, 1 for FAILED files, and 2 for tool errors.
+Validation messages must match supported repair rules. Validation runs in a
+separate process; the script supplies its own configuration.
 
 ## Offline timezone planning
 

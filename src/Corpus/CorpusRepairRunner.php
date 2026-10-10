@@ -250,11 +250,12 @@ final readonly class CorpusRepairRunner
         if (null !== $baseline) {
             $report = CorpusWorkspace::readJson($baseline);
 
-            if (1 !== ($report['schemaVersion'] ?? null) || 'activity-validation' !== ($report['mode'] ?? null)
-                || 'decode-crc-map-domain' !== ($report['scope'] ?? null) || PHP_VERSION !== ($report['phpVersion'] ?? null)
+            if (1 !== ($report['schemaVersion'] ?? null)
+                || (isset($report['phpVersion']) && PHP_VERSION !== $report['phpVersion'])
                 || ($report['profileSha256'] ?? null) !== $profile
+                || (isset($report['validatorFingerprint']) && $report['validatorFingerprint'] !== $fingerprint)
                 || !is_array($report['results'] ?? null)) {
-                throw new RepairFailed('Baseline must be a current Tracker activity-validation report from this PHP version.');
+                throw new RepairFailed('Baseline must be a current validation report for this validator and Profile.');
             }
 
             foreach ($report['results'] as $result) {

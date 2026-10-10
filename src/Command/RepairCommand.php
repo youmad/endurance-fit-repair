@@ -31,7 +31,7 @@ Options:
 
 Preserve mode restores supported missing metadata without removing messages.
 Reconstruct mode loses original laps, sessions, events and pauses.
-Output requires separate activity validation before import.
+Check the resulting FIT with an independent validator.
 HELP."\n");
 
             return 0;
