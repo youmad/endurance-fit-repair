@@ -50,6 +50,36 @@ SHA-256 hashes.
 Pass `localTimeOffset: 3600` when the activity's offset from UTC is known; in
 preserve mode it fills missing Activity local time.
 
+For automatic imports, `repairValidated()` selects the broader preserving rule
+set from your validator's failures and revalidates every changed version:
+
+```php
+$result = (new ActivityRepairer())->repairValidated(
+    bytes: $bytes,
+    validate: $validate,
+);
+
+if ('PASS' === $result->report['activity_validation']) {
+    // Import $result->bytes.
+}
+```
+
+The callback receives FIT bytes and returns `['status' => 'PASS']` or
+`['status' => 'FAILED', 'errors' => [['class' => $type, 'message' => $message]]]`.
+Include the exception chain in outer-to-inner order. Failures must use the
+Activity validation messages recognized by the rules; unrelated failures stay
+unresolved. Throw operational errors from the callback so they propagate.
+Passing input is returned unchanged. An unresolved result must not be imported.
+
+Optional policies: `reconcileSummaryClocks: true` enables corroborated native
+clock and summary inference; `inferTimeZone: true` tries recorded clock context,
+then the bundled geographic database; `useUtcForUnknownLocalTime: true` allows
+a UTC placeholder as a last resort. The timezone policies apply only to an
+invalid Activity local timestamp. Geographic inference requires `ext-zlib`.
+The default limit is 20 changed versions (`maxRounds`); `onProgress` accepts a
+callback for processing leases or cancellation. No corpus workspace or report
+file is created by this API.
+
 ## Validated corpus repair
 
 The corpus command provides a broader, iterative rule set. It attempts repairs

@@ -5,17 +5,186 @@ declare(strict_types=1);
 namespace Youmad\Endurance\FitRepair;
 
 use Youmad\Endurance\Fit\Decoder\FitFileReader;
+use Youmad\Endurance\Fit\Exception\FitDecodeException;
 use Youmad\Endurance\Fit\IO\ResourceFitInput;
+use Youmad\Endurance\FitRepair\Geography\CertifiedTimeZoneGrid;
+use Youmad\Endurance\FitRepair\Geography\FitGeographicEvidence;
+use Youmad\Endurance\FitRepair\Geography\GeographicZonePlanner;
+use Youmad\Endurance\FitRepair\Geography\GeographicZoneUnresolved;
 use Youmad\Endurance\FitRepair\Internal\Fit\ActivityHeartRateTail;
 use Youmad\Endurance\FitRepair\Internal\Fit\EditableFitFile;
 use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalEncoder;
 use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
 use Youmad\Endurance\FitRepair\Internal\Fit\RecoveringReader;
+use Youmad\Endurance\FitRepair\Internal\Rule\GeographicActivityTimeRepairer;
 use Youmad\Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
 
 /** Preserving repair by default; lossy reconstruction requires explicit selection. */
 final readonly class ActivityRepairer
 {
+    /**
+     * Runs preserving rules only after a validation failure, rechecking every candidate.
+     * The validator must throw operational errors rather than report them as FAILED.
+     *
+     * @param callable(string): array<string, mixed> $validate   PASS or FAILED, with an errors list of message/class pairs
+     * @param callable(): void|null                  $onProgress
+     */
+    public function repairValidated(
+        string $bytes,
+        callable $validate,
+        ?int $localTimeOffset = null,
+        int $maxRounds = 20,
+        bool $reconcileSummaryClocks = false,
+        bool $inferTimeZone = false,
+        bool $useUtcForUnknownLocalTime = false,
+        ?callable $onProgress = null,
+    ): RepairResult {
+        if (1 > $maxRounds || (null !== $localTimeOffset && (-43_200 > $localTimeOffset || 50_400 < $localTimeOffset))) {
+            throw new \InvalidArgumentException('Invalid round limit or local time offset.');
+        }
+
+        $progressState = new class {
+            public ?\Throwable $failure = null;
+        };
+        $progress = static function () use ($onProgress, $progressState): void {
+            try {
+                if (null !== $onProgress) {
+                    $onProgress();
+                }
+            } catch (\Throwable $failure) {
+                $progressState->failure = $failure;
+                throw $failure;
+            }
+        };
+        $sourceHash = hash('sha256', $bytes);
+        $seen = [$sourceHash => true];
+        $attempts = $steps = $unsupported = [];
+        $repairer = new PreservingActivityRepairer();
+
+        while (true) {
+            $progress();
+            $validation = $validate($bytes);
+            $status = $validation['status'] ?? null;
+
+            if (!in_array($status, ['PASS', 'FAILED'], true)) {
+                throw new \UnexpectedValueException('The validator must return PASS or FAILED; operational errors must be thrown.');
+            }
+
+            if ('PASS' === $status) {
+                $reason = 'all_pass';
+                break;
+            }
+
+            if (count($steps) >= $maxRounds) {
+                $reason = 'round_limit';
+                break;
+            }
+
+            $rules = $repairer->rulesForFailure($validation, $localTimeOffset, $reconcileSummaryClocks);
+            if (null === $localTimeOffset && ($inferTimeZone || $useUtcForUnknownLocalTime)) {
+                foreach ($validation['errors'] ?? [] as $error) {
+                    if (str_contains((string) ($error['message'] ?? ''), '"Activity Message Local Timestamp is Valid"')) {
+                        $rules[] = GeographicActivityTimeRepairer::NATIVE_RULE;
+                        if ($inferTimeZone) {
+                            $rules[] = GeographicActivityTimeRepairer::RULE;
+                        }
+                        if ($useUtcForUnknownLocalTime) {
+                            $rules[] = GeographicActivityTimeRepairer::UTC_COMPATIBILITY_RULE;
+                        }
+                        break;
+                    }
+                }
+            }
+
+            $changed = false;
+            $currentHash = hash('sha256', $bytes);
+            foreach ($rules as $rule) {
+                $attempt = $currentHash.':'.$rule;
+                if (isset($attempts[$attempt])) {
+                    continue;
+                }
+                $attempts[$attempt] = true;
+                $progress();
+
+                try {
+                    $repair = match ($rule) {
+                        GeographicActivityTimeRepairer::NATIVE_RULE => (new GeographicActivityTimeRepairer())->repairNativeContext($bytes),
+                        GeographicActivityTimeRepairer::RULE => $this->repairGeographicClock($bytes, $progress),
+                        GeographicActivityTimeRepairer::UTC_COMPATIBILITY_RULE => (new GeographicActivityTimeRepairer())->repairUtcCompatibility($bytes),
+                        default => $repairer->repair($bytes, $rule, $localTimeOffset),
+                    };
+                } catch (RepairFailed|FitDecodeException|GeographicZoneUnresolved|\InvalidArgumentException $failure) {
+                    if (null !== $progressState->failure) {
+                        throw $progressState->failure;
+                    }
+                    $unsupported[$rule] = $failure->getMessage();
+                    continue;
+                }
+
+                if (null !== $progressState->failure) {
+                    throw $progressState->failure;
+                }
+                $progress();
+                $hash = hash('sha256', $repair->bytes);
+                if (isset($seen[$hash])) {
+                    continue;
+                }
+
+                $seen[$hash] = true;
+                $steps[] = ['rule' => $rule, 'report' => $repair->report];
+                $bytes = $repair->bytes;
+                $changed = true;
+                break;
+            }
+
+            if (!$changed) {
+                $reason = 'fixed_point';
+                break;
+            }
+        }
+
+        return new RepairResult($bytes, [
+            'mode' => 'preserve',
+            'input_sha256' => $sourceHash,
+            'output_sha256' => hash('sha256', $bytes),
+            'steps' => $steps,
+            'unsupported' => $unsupported,
+            'activity_validation' => $status,
+            'stop_reason' => $reason,
+            'validation' => $validation,
+        ]);
+    }
+
+    /** @param callable(): void $progress */
+    private function repairGeographicClock(string $bytes, callable $progress): RepairResult
+    {
+        $stream = tmpfile();
+        if (false === $stream) {
+            throw new \RuntimeException('Cannot allocate geographic evidence input.');
+        }
+
+        try {
+            if (strlen($bytes) !== fwrite($stream, $bytes) || !fflush($stream)) {
+                throw new \RuntimeException('Cannot write geographic evidence input.');
+            }
+            $path = stream_get_meta_data($stream)['uri'];
+            $evidence = (new FitGeographicEvidence())->collect($path, hash('sha256', $bytes),
+                static function (string $message) use ($progress): void { $progress(); });
+            if (0 === ($evidence['records']['usablePositions'] ?? 0) && empty($evidence['rows']['summaryPositions'])) {
+                throw new RepairFailed('No usable geographic positions.');
+            }
+            try {
+                $zone = (new GeographicZonePlanner(CertifiedTimeZoneGrid::open()))->resolve($evidence)['zone'];
+            } catch (RepairFailed $failure) {
+                throw new \RuntimeException('Cannot use the geographic timezone database.', previous: $failure);
+            }
+
+            return (new GeographicActivityTimeRepairer())->repair($bytes, $zone);
+        } finally {
+            fclose($stream);
+        }
+    }
+
     public function repair(string $bytes, ?int $localTimeOffset = null, bool $reconstruct = false): RepairResult
     {
         if ($reconstruct) {
