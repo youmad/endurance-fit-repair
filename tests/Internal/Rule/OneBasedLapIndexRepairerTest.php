@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Internal\Rule;
+namespace Endurance\FitRepair\Tests\Internal\Rule;
 
+use Endurance\Fit\Checksum\FitCrc16;
+use Endurance\FitRepair\Internal\Fit\EditableFitFile;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\Internal\Rule\OneBasedLapIndexRepairer;
+use Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\Tests\Support\OneBasedLapIndexFixture;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\Fit\Checksum\FitCrc16;
-use Youmad\Endurance\FitRepair\Internal\Fit\EditableFitFile;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\Internal\Rule\OneBasedLapIndexRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\Tests\Support\OneBasedLapIndexFixture;
 
 final class OneBasedLapIndexRepairerTest extends TestCase
 {
@@ -94,9 +94,9 @@ final class OneBasedLapIndexRepairerTest extends TestCase
     {
         $repairer = new PreservingActivityRepairer();
         $failure = static fn (string $message): array => ['status' => 'FAILED', 'errors' => [['message' => $message]]];
-        self::assertSame([PreservingActivityRepairer::SESSION_INDEX, OneBasedLapIndexRepairer::RULE, PreservingActivityRepairer::SESSION_LAP_REFERENCES, PreservingActivityRepairer::UNPAUSED_FINAL_LAP, PreservingActivityRepairer::IMPOSSIBLE_SINGLE_LAP_START, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedLapPartitionStartRepairer::NATIVE_RULE, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedSingleLapFieldsRepairer::RULE], $repairer->rulesForFailure($failure('"Session Message Valid Message Index": expected message_index=0; got missing.'), null));
-        self::assertSame([PreservingActivityRepairer::SESSION_LAP_REFERENCES, OneBasedLapIndexRepairer::RULE, PreservingActivityRepairer::IMPOSSIBLE_SINGLE_LAP_START, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedLapPartitionStartRepairer::NATIVE_RULE], $repairer->rulesForFailure($failure('"Session Message First Lap Index and Num Laps are Valid"'), null));
-        self::assertSame([OneBasedLapIndexRepairer::RULE, PreservingActivityRepairer::REPEATED_LAP_INDEXES, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedSummaryDurationReconciler::RULE], $repairer->rulesForFailure($failure('"Lap Message Valid Message Index": expected message_index=0; got 1.'), null));
+        self::assertSame([PreservingActivityRepairer::SESSION_INDEX, OneBasedLapIndexRepairer::RULE, PreservingActivityRepairer::SESSION_LAP_REFERENCES, PreservingActivityRepairer::UNPAUSED_FINAL_LAP, PreservingActivityRepairer::IMPOSSIBLE_SINGLE_LAP_START, \Endurance\FitRepair\Internal\Rule\RecordedLapPartitionStartRepairer::NATIVE_RULE, \Endurance\FitRepair\Internal\Rule\RecordedSingleLapFieldsRepairer::RULE], $repairer->rulesForFailure($failure('"Session Message Valid Message Index": expected message_index=0; got missing.'), null));
+        self::assertSame([PreservingActivityRepairer::SESSION_LAP_REFERENCES, OneBasedLapIndexRepairer::RULE, PreservingActivityRepairer::IMPOSSIBLE_SINGLE_LAP_START, \Endurance\FitRepair\Internal\Rule\RecordedLapPartitionStartRepairer::NATIVE_RULE], $repairer->rulesForFailure($failure('"Session Message First Lap Index and Num Laps are Valid"'), null));
+        self::assertSame([OneBasedLapIndexRepairer::RULE, PreservingActivityRepairer::REPEATED_LAP_INDEXES, \Endurance\FitRepair\Internal\Rule\RecordedSummaryDurationReconciler::RULE], $repairer->rulesForFailure($failure('"Lap Message Valid Message Index": expected message_index=0; got 1.'), null));
         self::assertNotContains(OneBasedLapIndexRepairer::RULE, $repairer->rulesForFailure($failure('"Record Message Timestamps Fall Within Session Message Times"'), null));
         self::assertSame([], $repairer->rulesForFailure(['status' => 'PASS'], null));
     }

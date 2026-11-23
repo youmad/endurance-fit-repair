@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Internal\Rule;
+namespace Endurance\FitRepair\Tests\Internal\Rule;
 
+use Endurance\Fit\Checksum\FitCrc16;
+use Endurance\FitRepair\ActivityRepairer;
+use Endurance\FitRepair\Internal\Fit\EditableFitFile;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
+use Endurance\FitRepair\Internal\Rule\UnpausedLapTimerRepairer;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\Tests\Support\FitFixture;
+use Endurance\FitRepair\Tests\Support\UnpausedLapTimerFixture;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\Fit\Checksum\FitCrc16;
-use Youmad\Endurance\FitRepair\ActivityRepairer;
-use Youmad\Endurance\FitRepair\Internal\Fit\EditableFitFile;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\UnpausedLapTimerRepairer;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\Tests\Support\FitFixture;
-use Youmad\Endurance\FitRepair\Tests\Support\UnpausedLapTimerFixture;
 
 final class UnpausedLapTimerRepairerTest extends TestCase
 {
@@ -191,12 +191,12 @@ final class UnpausedLapTimerRepairerTest extends TestCase
     {
         $repairer = new PreservingActivityRepairer();
         $message = 'FIT failed Garmin required check "Session Message total_timer_time is Equal to the Sum of Lap Messages total_timer_time Values".';
-        self::assertSame([UnpausedLapTimerRepairer::RULE, PreservingActivityRepairer::RECORDED_LENGTH_LAPS, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedSummaryDurationReconciler::RULE, PreservingActivityRepairer::RECORDED_LENGTH_BOUNDARIES, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedObservationOrderRepairer::RULE], $repairer->rulesForFailure(['status' => 'FAILED', 'errors' => [['message' => $message]]], null));
+        self::assertSame([UnpausedLapTimerRepairer::RULE, PreservingActivityRepairer::RECORDED_LENGTH_LAPS, \Endurance\FitRepair\Internal\Rule\RecordedSummaryDurationReconciler::RULE, PreservingActivityRepairer::RECORDED_LENGTH_BOUNDARIES, \Endurance\FitRepair\Internal\Rule\RecordedObservationOrderRepairer::RULE], $repairer->rulesForFailure(['status' => 'FAILED', 'errors' => [['message' => $message]]], null));
         self::assertSame([], $repairer->rulesForFailure(['status' => 'PASS', 'errors' => [['message' => $message]]], null));
         self::assertNotContains(UnpausedLapTimerRepairer::RULE, $repairer->rulesForFailure(['status' => 'FAILED', 'errors' => [['message' => str_replace('timer', 'elapsed', $message)]]], null));
         self::assertSame([], $repairer->rulesForFailure(['status' => 'FAILED', 'errors' => [['message' => 'FIT session total_timer_time cannot exceed total_elapsed_time.']]], null));
         $message = 'FIT session total_timer_time (101000000 microseconds) cannot exceed total_elapsed_time (100000000 microseconds).';
-        self::assertSame([UnpausedLapTimerRepairer::RULE, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedSummaryDurationReconciler::RULE, PreservingActivityRepairer::RECORDED_LENGTH_BOUNDARIES], $repairer->rulesForFailure(['status' => 'FAILED', 'errors' => [['message' => $message]]], null));
+        self::assertSame([UnpausedLapTimerRepairer::RULE, \Endurance\FitRepair\Internal\Rule\RecordedSummaryDurationReconciler::RULE, PreservingActivityRepairer::RECORDED_LENGTH_BOUNDARIES], $repairer->rulesForFailure(['status' => 'FAILED', 'errors' => [['message' => $message]]], null));
         self::assertSame([], $repairer->rulesForFailure(['status' => 'FAILED', 'errors' => [['message' => str_replace('session', 'lap', $message)]]], null));
     }
 

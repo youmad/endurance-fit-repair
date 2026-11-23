@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Internal\Rule;
+namespace Endurance\FitRepair\Tests\Internal\Rule;
 
+use Endurance\FitRepair\Internal\Fit\EditableFitFile;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\Internal\Rule\MissingSessionLapRepairer;
+use Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
+use Endurance\FitRepair\Internal\Rule\RecordedActivitySummaryRepairer;
+use Endurance\FitRepair\Internal\Rule\RecordedLapElapsedRepairer;
+use Endurance\FitRepair\Internal\Rule\RecordedLapReferenceRepairer;
+use Endurance\FitRepair\Internal\Rule\RecordedMissingSetLapRepairer;
+use Endurance\FitRepair\Internal\Rule\RecordedObservationOrderRepairer;
+use Endurance\FitRepair\Internal\Rule\RecordedPoolPartitionRepairer;
+use Endurance\FitRepair\Internal\Rule\RecordedRecordClockRepairer;
+use Endurance\FitRepair\Internal\Rule\RecordedSessionLapPartitionRepairer;
+use Endurance\FitRepair\Internal\Rule\RecordedSingleLapFieldsRepairer;
+use Endurance\FitRepair\Internal\Rule\RecordedSportRepairer;
+use Endurance\FitRepair\Internal\Rule\RecordedSummarySaveRepairer;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\RepairResult;
+use Endurance\FitRepair\Tests\Support\FitFixture;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\FitRepair\Internal\Fit\EditableFitFile;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\Internal\Rule\MissingSessionLapRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\RecordedActivitySummaryRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\RecordedLapElapsedRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\RecordedLapReferenceRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\RecordedMissingSetLapRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\RecordedObservationOrderRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\RecordedPoolPartitionRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\RecordedRecordClockRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\RecordedSessionLapPartitionRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\RecordedSingleLapFieldsRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\RecordedSportRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\RecordedSummarySaveRepairer;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\RepairResult;
-use Youmad\Endurance\FitRepair\Tests\Support\FitFixture;
 
 final class NativeSummaryRepairersTest extends TestCase
 {

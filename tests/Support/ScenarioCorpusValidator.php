@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Support;
+namespace Endurance\FitRepair\Tests\Support;
 
-use Youmad\Endurance\FitRepair\Corpus\CorpusValidator;
-use Youmad\Endurance\FitRepair\Internal\Fit\EditableFitFile;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\Corpus\CorpusValidator;
+use Endurance\FitRepair\Internal\Fit\EditableFitFile;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
 
 /** Test oracle with successive missing-index and reference failures in real encoded FIT files. */
 final class ScenarioCorpusValidator implements CorpusValidator

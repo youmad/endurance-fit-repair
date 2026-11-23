@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Internal\Rule;
+namespace Endurance\FitRepair\Tests\Internal\Rule;
 
+use Endurance\Fit\Exception\FitDecodeException;
+use Endurance\FitRepair\Internal\Fit\EditableFitFile;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
+use Endurance\FitRepair\Internal\Rule\RecordedSpanStartRepairer;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\Tests\Support\RecordedSpanFixture;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\Fit\Exception\FitDecodeException;
-use Youmad\Endurance\FitRepair\Internal\Fit\EditableFitFile;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\RecordedSpanStartRepairer;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\Tests\Support\RecordedSpanFixture;
 
 final class RecordedSpanStartRepairerTest extends TestCase
 {
@@ -119,7 +119,7 @@ final class RecordedSpanStartRepairerTest extends TestCase
     {
         $repairer = new PreservingActivityRepairer();
         $failure = ['status' => 'FAILED', 'errors' => [['message' => 'FIT message at sequence 12 failed Garmin required check "Record Message Timestamps Fall Within Session Message Times": first Record timestamp=100 is earlier than first Session start_time=200 by 100 seconds; maximum lead is 1 second.']]];
-        self::assertSame([RecordedSpanStartRepairer::RULE, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedSummaryDurationReconciler::RULE, PreservingActivityRepairer::RECORDED_LENGTH_BOUNDARIES, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedLapElapsedRepairer::RULE, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedObservationOrderRepairer::RULE], $repairer->rulesForFailure($failure, null));
+        self::assertSame([RecordedSpanStartRepairer::RULE, \Endurance\FitRepair\Internal\Rule\RecordedSummaryDurationReconciler::RULE, PreservingActivityRepairer::RECORDED_LENGTH_BOUNDARIES, \Endurance\FitRepair\Internal\Rule\RecordedLapElapsedRepairer::RULE, \Endurance\FitRepair\Internal\Rule\RecordedObservationOrderRepairer::RULE], $repairer->rulesForFailure($failure, null));
         $failure['status'] = 'PASS';
         self::assertSame([], $repairer->rulesForFailure($failure, null));
         $failure['status'] = 'FAILED';

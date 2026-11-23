@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests;
+namespace Endurance\FitRepair\Tests;
 
+use Endurance\Fit\Decoder\FitFileReader;
+use Endurance\Fit\IO\ResourceFitInput;
+use Endurance\Fit\Raw\RawDataRecord;
+use Endurance\FitRepair\ActivityRepairer;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\Internal\Rule\RecordedLapBoundaryRepairer;
+use Endurance\FitRepair\Internal\Rule\RecordedLapEndRepairer;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\Tests\Support\FitFixture;
+use Endurance\FitRepair\Tests\Support\RecordedFinalLapFixture;
+use Endurance\FitRepair\Tests\Support\RecordedLapBoundaryFixture;
+use Endurance\FitRepair\Tests\Support\SessionElapsedFromLapsFixture;
+use Endurance\FitRepair\Tests\Support\UnpausedLapTimerFixture;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\Fit\Decoder\FitFileReader;
-use Youmad\Endurance\Fit\IO\ResourceFitInput;
-use Youmad\Endurance\Fit\Raw\RawDataRecord;
-use Youmad\Endurance\FitRepair\ActivityRepairer;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\Internal\Rule\RecordedLapBoundaryRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\RecordedLapEndRepairer;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\Tests\Support\FitFixture;
-use Youmad\Endurance\FitRepair\Tests\Support\RecordedFinalLapFixture;
-use Youmad\Endurance\FitRepair\Tests\Support\RecordedLapBoundaryFixture;
-use Youmad\Endurance\FitRepair\Tests\Support\SessionElapsedFromLapsFixture;
-use Youmad\Endurance\FitRepair\Tests\Support\UnpausedLapTimerFixture;
 
 final class ActivityRepairerTest extends TestCase
 {

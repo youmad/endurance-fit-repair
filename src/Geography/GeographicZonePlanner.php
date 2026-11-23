@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Geography;
+namespace Endurance\FitRepair\Geography;
 
-use Youmad\Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\RepairFailed;
 
 /** @internal Creates the existing offline plan format without external processes. */
 final readonly class GeographicZonePlanner

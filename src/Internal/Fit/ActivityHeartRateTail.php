@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Internal\Fit;
+namespace Endurance\FitRepair\Internal\Fit;
 
-use Youmad\Endurance\Fit\Checksum\FitCrc16;
-use Youmad\Endurance\Fit\Decoder\FitFileReader;
-use Youmad\Endurance\Fit\IO\ResourceFitInput;
-use Youmad\Endurance\Fit\Raw\FitFileHeader;
-use Youmad\Endurance\Fit\Raw\RawDataRecord;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\RepairResult;
+use Endurance\Fit\Checksum\FitCrc16;
+use Endurance\Fit\Decoder\FitFileReader;
+use Endurance\Fit\IO\ResourceFitInput;
+use Endurance\Fit\Raw\FitFileHeader;
+use Endurance\Fit\Raw\RawDataRecord;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\RepairResult;
 
 /** @internal Keeps chained HR packets outside edits to existing scalar activity fields. */
 final readonly class ActivityHeartRateTail

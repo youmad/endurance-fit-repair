@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Internal\Rule;
+namespace Endurance\FitRepair\Tests\Internal\Rule;
 
+use Endurance\FitRepair\Internal\Fit\EditableFitFile;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\Internal\Rule\PausedLapStartRepairer;
+use Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\Tests\Support\FitFixture;
+use Endurance\FitRepair\Tests\Support\PausedLapFixture;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\FitRepair\Internal\Fit\EditableFitFile;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\Internal\Rule\PausedLapStartRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\Tests\Support\FitFixture;
-use Youmad\Endurance\FitRepair\Tests\Support\PausedLapFixture;
 
 final class PausedLapStartRepairerTest extends TestCase
 {
@@ -194,11 +194,11 @@ final class PausedLapStartRepairerTest extends TestCase
     {
         $repairer = new PreservingActivityRepairer();
         $failure = ['status' => 'FAILED', 'errors' => [['message' => 'FIT lap at sequence 25 and byte offset 500 is not sequential with the previous lap or does not abut it: start_time=123, previous_end_time=100, whole-second delta=23.']]];
-        self::assertSame([PreservingActivityRepairer::RECORDED_LAP_PARTITION_START, PreservingActivityRepairer::PAUSED_LAP_PARTITION_START, PausedLapStartRepairer::RULE, PreservingActivityRepairer::RECORDED_LAP_END, PreservingActivityRepairer::UNPAUSED_FINAL_LAP, PreservingActivityRepairer::RECORDED_LENGTH_LAPS, PreservingActivityRepairer::FRONT_SUMMARY_CLOCKS, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedLapPartitionStartRepairer::NATIVE_RULE, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedSummaryDurationReconciler::RULE, PreservingActivityRepairer::RECORDED_LENGTH_BOUNDARIES, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedLapElapsedRepairer::RULE, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedObservationOrderRepairer::RULE], $repairer->rulesForFailure($failure, null));
+        self::assertSame([PreservingActivityRepairer::RECORDED_LAP_PARTITION_START, PreservingActivityRepairer::PAUSED_LAP_PARTITION_START, PausedLapStartRepairer::RULE, PreservingActivityRepairer::RECORDED_LAP_END, PreservingActivityRepairer::UNPAUSED_FINAL_LAP, PreservingActivityRepairer::RECORDED_LENGTH_LAPS, PreservingActivityRepairer::FRONT_SUMMARY_CLOCKS, \Endurance\FitRepair\Internal\Rule\RecordedLapPartitionStartRepairer::NATIVE_RULE, \Endurance\FitRepair\Internal\Rule\RecordedSummaryDurationReconciler::RULE, PreservingActivityRepairer::RECORDED_LENGTH_BOUNDARIES, \Endurance\FitRepair\Internal\Rule\RecordedLapElapsedRepairer::RULE, \Endurance\FitRepair\Internal\Rule\RecordedObservationOrderRepairer::RULE], $repairer->rulesForFailure($failure, null));
         $failure['status'] = 'PASS';
         self::assertSame([], $repairer->rulesForFailure($failure, null));
         $failure['status'] = 'FAILED';
         $failure['errors'][0]['message'] = 'FIT session at sequence 25 is not sequential with the previous session or does not abut it: start_time=123.';
-        self::assertSame([\Youmad\Endurance\FitRepair\Internal\Rule\RecordedSummaryDurationReconciler::RULE, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedLapElapsedRepairer::RULE, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedObservationOrderRepairer::RULE], $repairer->rulesForFailure($failure, null));
+        self::assertSame([\Endurance\FitRepair\Internal\Rule\RecordedSummaryDurationReconciler::RULE, \Endurance\FitRepair\Internal\Rule\RecordedLapElapsedRepairer::RULE, \Endurance\FitRepair\Internal\Rule\RecordedObservationOrderRepairer::RULE], $repairer->rulesForFailure($failure, null));
     }
 }

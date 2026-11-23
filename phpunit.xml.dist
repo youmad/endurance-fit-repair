@@ -12,7 +12,7 @@
     failOnPhpunitNotice="true"
 >
     <testsuites>
-        <testsuite name="youmad/endurance-fit-repair">
+        <testsuite name="endurance/fit-repair">
             <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>

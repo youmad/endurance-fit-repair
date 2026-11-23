@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Corpus;
+namespace Endurance\FitRepair\Corpus;
 
-use Youmad\Endurance\FitRepair\Internal\Rule\GeographicActivityTimeRepairer;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\RepairResult;
+use Endurance\FitRepair\Internal\Rule\GeographicActivityTimeRepairer;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\RepairResult;
 
 /** @internal An explicit offline geographic inference plan bound to current FIT hashes. */
 final readonly class CorpusTimeZonePlan

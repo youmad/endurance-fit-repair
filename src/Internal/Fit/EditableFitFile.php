@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Internal\Fit;
+namespace Endurance\FitRepair\Internal\Fit;
 
-use Youmad\Endurance\Fit\Checksum\FitCrc16;
-use Youmad\Endurance\Fit\Decoder\RawRecordStreamReader;
-use Youmad\Endurance\Fit\IO\ResourceFitInput;
-use Youmad\Endurance\Fit\Raw\FitArchitecture;
-use Youmad\Endurance\Fit\Raw\FitFileHeader;
-use Youmad\Endurance\Fit\Raw\RawCompressedTimestampDataMessage;
-use Youmad\Endurance\Fit\Raw\RawDataRecord;
-use Youmad\Endurance\Fit\Raw\RawDefinitionMessage;
-use Youmad\Endurance\FitRepair\RepairFailed;
+use Endurance\Fit\Checksum\FitCrc16;
+use Endurance\Fit\Decoder\RawRecordStreamReader;
+use Endurance\Fit\IO\ResourceFitInput;
+use Endurance\Fit\Raw\FitArchitecture;
+use Endurance\Fit\Raw\FitFileHeader;
+use Endurance\Fit\Raw\RawCompressedTimestampDataMessage;
+use Endurance\Fit\Raw\RawDataRecord;
+use Endurance\Fit\Raw\RawDefinitionMessage;
+use Endurance\FitRepair\RepairFailed;
 
 /** @internal Edits selected fields while retaining all other physical records. */
 final readonly class EditableFitFile

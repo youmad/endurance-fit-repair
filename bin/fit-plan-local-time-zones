@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-use Youmad\Endurance\FitRepair\Command\GeographicZonePlanCommand;
+use Endurance\FitRepair\Command\GeographicZonePlanCommand;
 
 require $_composer_autoload_path ?? dirname(__DIR__).'/vendor/autoload.php';
 

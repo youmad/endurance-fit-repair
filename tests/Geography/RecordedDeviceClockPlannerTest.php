@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Geography;
+namespace Endurance\FitRepair\Tests\Geography;
 
+use Endurance\FitRepair\Corpus\CorpusTimeZonePlan;
+use Endurance\FitRepair\Geography\CertifiedTimeZoneGrid;
+use Endurance\FitRepair\Geography\FitGeographicEvidence;
+use Endurance\FitRepair\Geography\GeographicZonePlanner;
+use Endurance\FitRepair\Geography\RecordedDeviceClockPlanner;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\Tests\Support\FitFixture;
+use Endurance\FitRepair\Tests\Support\GeographyFixture;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\FitRepair\Corpus\CorpusTimeZonePlan;
-use Youmad\Endurance\FitRepair\Geography\CertifiedTimeZoneGrid;
-use Youmad\Endurance\FitRepair\Geography\FitGeographicEvidence;
-use Youmad\Endurance\FitRepair\Geography\GeographicZonePlanner;
-use Youmad\Endurance\FitRepair\Geography\RecordedDeviceClockPlanner;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\Tests\Support\FitFixture;
-use Youmad\Endurance\FitRepair\Tests\Support\GeographyFixture;
 
 final class RecordedDeviceClockPlannerTest extends TestCase
 {

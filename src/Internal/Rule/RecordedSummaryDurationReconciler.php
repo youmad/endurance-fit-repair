@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Internal\Rule;
+namespace Endurance\FitRepair\Internal\Rule;
 
-use Youmad\Endurance\Fit\Checksum\FitCrc16;
-use Youmad\Endurance\Fit\Decoder\FitFileReader;
-use Youmad\Endurance\Fit\IO\ResourceFitInput;
-use Youmad\Endurance\Fit\Raw\FitArchitecture;
-use Youmad\Endurance\Fit\Raw\RawDataRecord;
-use Youmad\Endurance\FitRepair\Internal\Fit\ActivityHeartRateTail;
-use Youmad\Endurance\FitRepair\Internal\Fit\EditableFitFile;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\RepairResult;
+use Endurance\Fit\Checksum\FitCrc16;
+use Endurance\Fit\Decoder\FitFileReader;
+use Endurance\Fit\IO\ResourceFitInput;
+use Endurance\Fit\Raw\FitArchitecture;
+use Endurance\Fit\Raw\RawDataRecord;
+use Endurance\FitRepair\Internal\Fit\ActivityHeartRateTail;
+use Endurance\FitRepair\Internal\Fit\EditableFitFile;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\RepairResult;
 
 /**
  * Reconciles contradictory summary counters against original clocks and corroborated timer spans.
@@ -787,7 +787,7 @@ final readonly class RecordedSummaryDurationReconciler
                     foreach ($raw->standardFields() as $field) {
                         hash_update($hash, pack('CCC', $field->definition->fieldNumber, $field->definition->size, $field->definition->baseType->definitionByte()).$field->value->bytes());
                     }
-                    if ($raw instanceof \Youmad\Endurance\Fit\Raw\RawCompressedTimestampDataMessage) {
+                    if ($raw instanceof \Endurance\Fit\Raw\RawCompressedTimestampDataMessage) {
                         hash_update($hash, pack('V', $raw->reconstructedTimestamp));
                     }
                 }

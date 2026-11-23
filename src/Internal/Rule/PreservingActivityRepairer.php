@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Internal\Rule;
+namespace Endurance\FitRepair\Internal\Rule;
 
-use Youmad\Endurance\FitRepair\Internal\Fit\EditableFitFile;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\RepairResult;
+use Endurance\FitRepair\Internal\Fit\EditableFitFile;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\RepairResult;
 
 /** Applies one deterministic rule without rebuilding activity summaries. */
 final readonly class PreservingActivityRepairer

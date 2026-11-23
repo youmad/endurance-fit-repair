@@ -9,7 +9,7 @@ Requires PHP `^8.5`. Install `ext-zlib` to read compressed reports or use the
 bundled timezone database.
 
 ```bash
-composer require youmad/endurance-fit-repair
+composer require endurance/fit-repair
 ```
 
 ## Repairing one file
@@ -36,7 +36,7 @@ Use `--help` for all command options.
 ## PHP API
 
 ```php
-use Youmad\Endurance\FitRepair\ActivityRepairer;
+use Endurance\FitRepair\ActivityRepairer;
 
 $result = (new ActivityRepairer())->repair($bytes);
 $repairedBytes = $result->bytes;

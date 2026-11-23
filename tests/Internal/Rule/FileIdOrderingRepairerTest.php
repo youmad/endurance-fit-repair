@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Internal\Rule;
+namespace Endurance\FitRepair\Tests\Internal\Rule;
 
+use Endurance\FitRepair\ActivityRepairer;
+use Endurance\FitRepair\Internal\Fit\EditableFitFile;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\Tests\Support\FitFixture;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\FitRepair\ActivityRepairer;
-use Youmad\Endurance\FitRepair\Internal\Fit\EditableFitFile;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\Tests\Support\FitFixture;
 
 final class FileIdOrderingRepairerTest extends TestCase
 {
@@ -56,7 +56,7 @@ final class FileIdOrderingRepairerTest extends TestCase
         $fileId = self::fileId();
         $data = FitFixture::message(50_000, [[2, 0x0D, "\xBB"]]).$fileId."\x00\x04";
         $header = "\x0C\x10".pack('vV', 21_208, strlen($data)).'.FIT';
-        $source = $header.$data.pack('v', \Youmad\Endurance\Fit\Checksum\FitCrc16::calculate($header.$data));
+        $source = $header.$data.pack('v', \Endurance\Fit\Checksum\FitCrc16::calculate($header.$data));
         $output = EditableFitFile::read(EditableFitFile::read($source)->moveToFront(1));
         self::assertSame(12, $output->header->headerSize);
         self::assertSame(substr($source, 0, 4), substr($output->bytes, 0, 4));

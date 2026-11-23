@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Support;
+namespace Endurance\FitRepair\Tests\Support;
 
 /** @internal Unchanged elapsed and active spans exclude the one-second-later Lap start. */
 final class RecordedLapEndFixture

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Corpus;
+namespace Endurance\FitRepair\Corpus;
 
-use Youmad\Endurance\Fit\Exception\FitDecodeException;
-use Youmad\Endurance\FitRepair\Geography\FitGeographicEvidence;
-use Youmad\Endurance\FitRepair\Internal\Rule\GeographicActivityTimeRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
-use Youmad\Endurance\FitRepair\RepairFailed;
+use Endurance\Fit\Exception\FitDecodeException;
+use Endurance\FitRepair\Geography\FitGeographicEvidence;
+use Endurance\FitRepair\Internal\Rule\GeographicActivityTimeRepairer;
+use Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
+use Endurance\FitRepair\RepairFailed;
 
 /** A fixed-point run: each round changes one group and validates only new bytes. */
 final readonly class CorpusRepairRunner

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Corpus;
+namespace Endurance\FitRepair\Corpus;
 
 interface CorpusValidator
 {

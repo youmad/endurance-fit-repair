@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Internal\Rule;
+namespace Endurance\FitRepair\Internal\Rule;
 
-use Youmad\Endurance\Fit\Decoder\FitFileReader;
-use Youmad\Endurance\Fit\IO\ResourceFitInput;
-use Youmad\Endurance\Fit\Raw\RawDataRecord;
-use Youmad\Endurance\FitRepair\Internal\Fit\EditableFitFile;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\RepairResult;
+use Endurance\Fit\Decoder\FitFileReader;
+use Endurance\Fit\IO\ResourceFitInput;
+use Endurance\Fit\Raw\RawDataRecord;
+use Endurance\FitRepair\Internal\Fit\EditableFitFile;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\RepairResult;
 
 /** Fills absent paired pool clocks from native Length intervals and distance corroboration. */
 final readonly class RecordedPoolTimestampRepairer

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Support;
+namespace Endurance\FitRepair\Tests\Support;
 
 /** One explicit Session and matching existing Lap, including summary-first order. */
 final readonly class ReservedSessionIndexFixture

@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Internal\Rule;
+namespace Endurance\FitRepair\Tests\Internal\Rule;
 
+use Endurance\FitRepair\ActivityRepairer;
+use Endurance\FitRepair\Internal\Fit\EditableFitFile;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\Internal\Rule\MissingSessionLapRepairer;
+use Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\Tests\Support\FitFixture;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\FitRepair\ActivityRepairer;
-use Youmad\Endurance\FitRepair\Internal\Fit\EditableFitFile;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\Internal\Rule\MissingSessionLapRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\Tests\Support\FitFixture;
 
 final class MissingSessionLapRepairerTest extends TestCase
 {
@@ -74,7 +74,7 @@ final class MissingSessionLapRepairerTest extends TestCase
             }
         }
         $selector = new PreservingActivityRepairer();
-        self::assertSame([MissingSessionLapRepairer::ACTIVITY_RULE, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedActivitySummaryRepairer::RULE], $selector->rulesForFailure(['status' => 'FAILED', 'errors' => [['message' => '"Activity Message Exists"']]], null));
+        self::assertSame([MissingSessionLapRepairer::ACTIVITY_RULE, \Endurance\FitRepair\Internal\Rule\RecordedActivitySummaryRepairer::RULE], $selector->rulesForFailure(['status' => 'FAILED', 'errors' => [['message' => '"Activity Message Exists"']]], null));
         self::assertSame([], $selector->rulesForFailure(['status' => 'PASS'], null));
     }
 

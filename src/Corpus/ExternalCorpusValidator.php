@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Corpus;
+namespace Endurance\FitRepair\Corpus;
 
-use Youmad\Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\RepairFailed;
 
 /** Runs a PHP batch validator implementing the external validation protocol. */
 final readonly class ExternalCorpusValidator implements CorpusValidator

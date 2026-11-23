@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Internal\Rule;
+namespace Endurance\FitRepair\Tests\Internal\Rule;
 
+use Endurance\FitRepair\ActivityRepairer;
+use Endurance\FitRepair\Internal\Fit\EditableFitFile;
+use Endurance\FitRepair\Internal\Fit\PhysicalEncoder;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\Tests\Support\FitFixture;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\FitRepair\ActivityRepairer;
-use Youmad\Endurance\FitRepair\Internal\Fit\EditableFitFile;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalEncoder;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\Tests\Support\FitFixture;
 
 final class RecordedSetLapRepairerTest extends TestCase
 {
@@ -55,7 +55,7 @@ final class RecordedSetLapRepairerTest extends TestCase
                     self::assertSame('verified', $result->report['preservation']);
                     self::assertSame($result->bytes, (new ActivityRepairer())->repair($source)->bytes);
                     self::assertSame($result->bytes, (new ActivityRepairer())->repair($result->bytes)->bytes);
-                    self::assertSame([PreservingActivityRepairer::MISSING_LAP, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedSummarySaveRepairer::RULE], (new PreservingActivityRepairer())->rulesForFailure([
+                    self::assertSame([PreservingActivityRepairer::MISSING_LAP, \Endurance\FitRepair\Internal\Rule\RecordedSummarySaveRepairer::RULE], (new PreservingActivityRepairer())->rulesForFailure([
                         'status' => 'FAILED', 'errors' => [['message' => 'Required check "Lap Message Exists" failed.']],
                     ], null));
                 }

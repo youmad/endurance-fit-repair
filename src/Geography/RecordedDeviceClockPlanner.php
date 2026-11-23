@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Geography;
+namespace Endurance\FitRepair\Geography;
 
-use Youmad\Endurance\Fit\Decoder\FitFileReader;
-use Youmad\Endurance\Fit\IO\ResourceFitInput;
-use Youmad\Endurance\Fit\Raw\RawDataRecord;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\RepairFailed;
+use Endurance\Fit\Decoder\FitFileReader;
+use Endurance\Fit\IO\ResourceFitInput;
+use Endurance\Fit\Raw\RawDataRecord;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\RepairFailed;
 
 /** Optional inference from native clocks or freshly certified coordinates of the same device. */
 final readonly class RecordedDeviceClockPlanner
@@ -46,7 +46,7 @@ final readonly class RecordedDeviceClockPlanner
             }
             try {
                 $clock = $this->clock($path);
-            } catch (\InvalidArgumentException|\Youmad\Endurance\Fit\Exception\FitDecodeException|RepairFailed) {
+            } catch (\InvalidArgumentException|\Endurance\Fit\Exception\FitDecodeException|RepairFailed) {
                 $clock = null;
             }
             if (hash_file('sha256', $path) !== $sha256) {

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Corpus;
+namespace Endurance\FitRepair\Tests\Corpus;
 
+use Endurance\FitRepair\Corpus\FitFailureDiagnostics;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\Tests\Support\FitFixture;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\FitRepair\Corpus\FitFailureDiagnostics;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\Tests\Support\FitFixture;
 
 final class FitFailureDiagnosticsTest extends TestCase
 {

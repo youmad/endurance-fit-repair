@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Internal\Rule;
+namespace Endurance\FitRepair\Internal\Rule;
 
-use Youmad\Endurance\FitRepair\Internal\Fit\ActivityHeartRateTail;
-use Youmad\Endurance\FitRepair\Internal\Fit\EditableFitFile;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\RepairResult;
+use Endurance\FitRepair\Internal\Fit\ActivityHeartRateTail;
+use Endurance\FitRepair\Internal\Fit\EditableFitFile;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\RepairResult;
 
 /** Restores overlapping Length starts from unchanged, independently indexed Lap partitions. */
 final readonly class RecordedLengthBoundaryRepairer
@@ -507,9 +507,9 @@ final readonly class RecordedLengthBoundaryRepairer
             if (strlen($bytes) !== fwrite($stream, $bytes) || !rewind($stream)) {
                 throw new RepairFailed('Cannot fill Length boundary input.');
             }
-            $file = (new \Youmad\Endurance\Fit\Decoder\FitFileReader())->open(new \Youmad\Endurance\Fit\IO\ResourceFitInput($stream));
+            $file = (new \Endurance\Fit\Decoder\FitFileReader())->open(new \Endurance\Fit\IO\ResourceFitInput($stream));
             foreach ($file->messages() as $raw) {
-                if (!$raw instanceof \Youmad\Endurance\Fit\Raw\RawDataRecord) {
+                if (!$raw instanceof \Endurance\Fit\Raw\RawDataRecord) {
                     continue;
                 }
                 $fields += count($raw->standardFields()) + count($raw->developerFields());

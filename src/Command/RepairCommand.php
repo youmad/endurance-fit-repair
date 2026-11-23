@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Command;
+namespace Endurance\FitRepair\Command;
 
-use Youmad\Endurance\FitRepair\ActivityRepairer;
-use Youmad\Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\ActivityRepairer;
+use Endurance\FitRepair\RepairFailed;
 
 final readonly class RepairCommand
 {

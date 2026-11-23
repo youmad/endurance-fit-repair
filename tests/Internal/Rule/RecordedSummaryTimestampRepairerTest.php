@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Internal\Rule;
+namespace Endurance\FitRepair\Tests\Internal\Rule;
 
+use Endurance\Fit\Checksum\FitCrc16;
+use Endurance\Fit\Raw\RawCompressedTimestampDataMessage;
+use Endurance\FitRepair\Internal\Fit\EditableFitFile;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
+use Endurance\FitRepair\Internal\Rule\RecordedSummaryTimestampRepairer;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\Tests\Support\RecordedSummaryTimestampFixture;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\Fit\Checksum\FitCrc16;
-use Youmad\Endurance\Fit\Raw\RawCompressedTimestampDataMessage;
-use Youmad\Endurance\FitRepair\Internal\Fit\EditableFitFile;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\RecordedSummaryTimestampRepairer;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\Tests\Support\RecordedSummaryTimestampFixture;
 
 final class RecordedSummaryTimestampRepairerTest extends TestCase
 {
@@ -242,9 +242,9 @@ final class RecordedSummaryTimestampRepairerTest extends TestCase
 
         foreach (['lap', 'session', 'activity'] as $name) {
             $failure = ['status' => 'FAILED', 'errors' => [['message' => 'FIT '.$name.' at sequence 42 and byte offset 500 has no usable timestamp field.']]];
-            $expected = [RecordedSummaryTimestampRepairer::RULE, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedSingleLapFieldsRepairer::RULE];
+            $expected = [RecordedSummaryTimestampRepairer::RULE, \Endurance\FitRepair\Internal\Rule\RecordedSingleLapFieldsRepairer::RULE];
             if ('lap' === $name) {
-                $expected[] = \Youmad\Endurance\FitRepair\Internal\Rule\RecordedSummarySaveRepairer::RULE;
+                $expected[] = \Endurance\FitRepair\Internal\Rule\RecordedSummarySaveRepairer::RULE;
             }
             self::assertSame($expected, $repairer->rulesForFailure($failure, null));
             $result = $repairer->repair(RecordedSummaryTimestampFixture::file(), RecordedSummaryTimestampRepairer::RULE);

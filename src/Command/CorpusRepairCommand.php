@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Command;
+namespace Endurance\FitRepair\Command;
 
-use Youmad\Endurance\FitRepair\Corpus\CorpusRepairRunner;
-use Youmad\Endurance\FitRepair\Corpus\CorpusTimeZonePlan;
-use Youmad\Endurance\FitRepair\Corpus\CorpusWorkspace;
-use Youmad\Endurance\FitRepair\Corpus\ExternalCorpusValidator;
-use Youmad\Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\Corpus\CorpusRepairRunner;
+use Endurance\FitRepair\Corpus\CorpusTimeZonePlan;
+use Endurance\FitRepair\Corpus\CorpusWorkspace;
+use Endurance\FitRepair\Corpus\ExternalCorpusValidator;
+use Endurance\FitRepair\RepairFailed;
 
 final readonly class CorpusRepairCommand
 {

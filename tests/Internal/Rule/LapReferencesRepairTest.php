@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Internal\Rule;
+namespace Endurance\FitRepair\Tests\Internal\Rule;
 
+use Endurance\FitRepair\ActivityRepairer;
+use Endurance\FitRepair\Internal\Fit\EditableFitFile;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
+use Endurance\FitRepair\Tests\Support\FitFixture;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\FitRepair\ActivityRepairer;
-use Youmad\Endurance\FitRepair\Internal\Fit\EditableFitFile;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
-use Youmad\Endurance\FitRepair\Tests\Support\FitFixture;
 
 final class LapReferencesRepairTest extends TestCase
 {
@@ -112,10 +112,10 @@ final class LapReferencesRepairTest extends TestCase
     {
         $repairer = new PreservingActivityRepairer();
         $failure = ['status' => 'FAILED', 'errors' => [['message' => 'FIT failed Garmin required check "Session Message Valid Message Index": expected message_index=0; got missing.']]];
-        self::assertSame([PreservingActivityRepairer::SESSION_INDEX, PreservingActivityRepairer::ONE_BASED_LAP_INDEXES, PreservingActivityRepairer::SESSION_LAP_REFERENCES, PreservingActivityRepairer::UNPAUSED_FINAL_LAP, PreservingActivityRepairer::IMPOSSIBLE_SINGLE_LAP_START, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedLapPartitionStartRepairer::NATIVE_RULE, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedSingleLapFieldsRepairer::RULE], $repairer->rulesForFailure($failure, null));
+        self::assertSame([PreservingActivityRepairer::SESSION_INDEX, PreservingActivityRepairer::ONE_BASED_LAP_INDEXES, PreservingActivityRepairer::SESSION_LAP_REFERENCES, PreservingActivityRepairer::UNPAUSED_FINAL_LAP, PreservingActivityRepairer::IMPOSSIBLE_SINGLE_LAP_START, \Endurance\FitRepair\Internal\Rule\RecordedLapPartitionStartRepairer::NATIVE_RULE, \Endurance\FitRepair\Internal\Rule\RecordedSingleLapFieldsRepairer::RULE], $repairer->rulesForFailure($failure, null));
         self::assertSame(PreservingActivityRepairer::SESSION_INDEX, $repairer->ruleForFailure($failure, null));
         $failure['errors'][0]['message'] = 'FIT failed Garmin required check "Session Message First Lap Index and Num Laps are Valid": missing first_lap_index.';
-        self::assertSame([PreservingActivityRepairer::SESSION_LAP_REFERENCES, PreservingActivityRepairer::ONE_BASED_LAP_INDEXES, PreservingActivityRepairer::IMPOSSIBLE_SINGLE_LAP_START, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedLapPartitionStartRepairer::NATIVE_RULE], $repairer->rulesForFailure($failure, null));
+        self::assertSame([PreservingActivityRepairer::SESSION_LAP_REFERENCES, PreservingActivityRepairer::ONE_BASED_LAP_INDEXES, PreservingActivityRepairer::IMPOSSIBLE_SINGLE_LAP_START, \Endurance\FitRepair\Internal\Rule\RecordedLapPartitionStartRepairer::NATIVE_RULE], $repairer->rulesForFailure($failure, null));
         $failure['errors'][0]['message'] = 'FIT failed Garmin required check "Session Message Valid Message Index": expected message_index=0; got 28672.';
         self::assertSame([PreservingActivityRepairer::RESERVED_SESSION_INDEX], $repairer->rulesForFailure($failure, null));
         $failure['status'] = 'PASS';

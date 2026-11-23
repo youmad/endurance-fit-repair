@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Geography;
+namespace Endurance\FitRepair\Tests\Geography;
 
+use Endurance\FitRepair\Geography\CertifiedTimeZoneGrid;
+use Endurance\FitRepair\Geography\GeographicZoneUnresolved;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\FitRepair\Geography\CertifiedTimeZoneGrid;
-use Youmad\Endurance\FitRepair\Geography\GeographicZoneUnresolved;
 
 final class BundledTimeZoneGridTest extends TestCase
 {

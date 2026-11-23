@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Geography;
+namespace Endurance\FitRepair\Geography;
 
-use Youmad\Endurance\Fit\Decoder\FitFileReader;
-use Youmad\Endurance\Fit\Exception\FitDecodeException;
-use Youmad\Endurance\Fit\IO\ResourceFitInput;
-use Youmad\Endurance\Fit\Raw\RawDataRecord;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\RepairFailed;
+use Endurance\Fit\Decoder\FitFileReader;
+use Endurance\Fit\Exception\FitDecodeException;
+use Endurance\Fit\IO\ResourceFitInput;
+use Endurance\Fit\Raw\RawDataRecord;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\RepairFailed;
 
 /** @internal Read-only evidence; coordinates and clock pairs do not establish a timezone. */
 final readonly class FitGeographicEvidence

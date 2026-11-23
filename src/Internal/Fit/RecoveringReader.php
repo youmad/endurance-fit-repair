@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Internal\Fit;
+namespace Endurance\FitRepair\Internal\Fit;
 
-use Youmad\Endurance\Fit\Checksum\FitCrc16;
-use Youmad\Endurance\Fit\Decoder\RawRecordStreamReader;
-use Youmad\Endurance\Fit\Exception\FitDecodeException;
-use Youmad\Endurance\Fit\IO\ResourceFitInput;
-use Youmad\Endurance\Fit\Raw\FitFileHeader;
-use Youmad\Endurance\Fit\Raw\RawDataRecord;
-use Youmad\Endurance\FitRepair\RepairFailed;
+use Endurance\Fit\Checksum\FitCrc16;
+use Endurance\Fit\Decoder\RawRecordStreamReader;
+use Endurance\Fit\Exception\FitDecodeException;
+use Endurance\Fit\IO\ResourceFitInput;
+use Endurance\Fit\Raw\FitFileHeader;
+use Endurance\Fit\Raw\RawDataRecord;
+use Endurance\FitRepair\RepairFailed;
 
 /** @internal Reads a complete prefix; never scans beyond a broken record. */
 final readonly class RecoveringReader

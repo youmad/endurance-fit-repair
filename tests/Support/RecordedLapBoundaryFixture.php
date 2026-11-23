@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Support;
+namespace Endurance\FitRepair\Tests\Support;
 
 /** @internal Fractional durations corroborate a recorded one-second Lap-start error. */
 final class RecordedLapBoundaryFixture

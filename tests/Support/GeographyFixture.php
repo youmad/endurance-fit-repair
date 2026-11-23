@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Support;
+namespace Endurance\FitRepair\Tests\Support;
 
 /** @internal Small artificial certificates to exercise the binary reader. */
 final class GeographyFixture

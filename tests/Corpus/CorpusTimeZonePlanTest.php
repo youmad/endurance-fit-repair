@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Corpus;
+namespace Endurance\FitRepair\Tests\Corpus;
 
+use Endurance\FitRepair\Corpus\CorpusTimeZonePlan;
+use Endurance\FitRepair\RepairFailed;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\FitRepair\Corpus\CorpusTimeZonePlan;
-use Youmad\Endurance\FitRepair\RepairFailed;
 
 final class CorpusTimeZonePlanTest extends TestCase
 {

@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Internal\Rule;
+namespace Endurance\FitRepair\Tests\Internal\Rule;
 
+use Endurance\Fit\Checksum\FitCrc16;
+use Endurance\Fit\Raw\RawCompressedTimestampDataMessage;
+use Endurance\FitRepair\Internal\Fit\EditableFitFile;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
+use Endurance\FitRepair\Internal\Rule\RecordedSummaryDurationReconciler;
+use Endurance\FitRepair\Internal\Rule\SingleLapDurationRepairer;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\Tests\Support\SingleLapDurationFixture;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\Fit\Checksum\FitCrc16;
-use Youmad\Endurance\Fit\Raw\RawCompressedTimestampDataMessage;
-use Youmad\Endurance\FitRepair\Internal\Fit\EditableFitFile;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\RecordedSummaryDurationReconciler;
-use Youmad\Endurance\FitRepair\Internal\Rule\SingleLapDurationRepairer;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\Tests\Support\SingleLapDurationFixture;
 
 final class SingleLapDurationRepairerTest extends TestCase
 {
@@ -168,14 +168,14 @@ final class SingleLapDurationRepairerTest extends TestCase
     {
         $repairer = new PreservingActivityRepairer();
         $failure = ['status' => 'FAILED', 'errors' => [['message' => 'FIT lap at sequence 25 and byte offset 100 has no usable total_elapsed_time field.']]];
-        self::assertSame([SingleLapDurationRepairer::RULE, RecordedSummaryDurationReconciler::RULE, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedSingleLapFieldsRepairer::RULE, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedActivitySummaryRepairer::RULE, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedObservationOrderRepairer::RULE], $repairer->rulesForFailure($failure, null));
+        self::assertSame([SingleLapDurationRepairer::RULE, RecordedSummaryDurationReconciler::RULE, \Endurance\FitRepair\Internal\Rule\RecordedSingleLapFieldsRepairer::RULE, \Endurance\FitRepair\Internal\Rule\RecordedActivitySummaryRepairer::RULE, \Endurance\FitRepair\Internal\Rule\RecordedObservationOrderRepairer::RULE], $repairer->rulesForFailure($failure, null));
         $failure['status'] = 'PASS';
         self::assertSame([], $repairer->rulesForFailure($failure, null));
         $failure['status'] = 'FAILED';
         $failure['errors'][0]['message'] = 'FIT segment_lap at sequence 25 has no usable total_elapsed_time field.';
         self::assertSame([PreservingActivityRepairer::SEGMENT_LAP_ELAPSED], $repairer->rulesForFailure($failure, null));
         $failure['errors'][0]['message'] = 'FIT lap at sequence 25 has no usable start_time field.';
-        self::assertSame([SingleLapDurationRepairer::START_RULE, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedSingleLapFieldsRepairer::RULE], $repairer->rulesForFailure($failure, null));
+        self::assertSame([SingleLapDurationRepairer::START_RULE, \Endurance\FitRepair\Internal\Rule\RecordedSingleLapFieldsRepairer::RULE], $repairer->rulesForFailure($failure, null));
     }
 
     public function testCopiesTheMissingStartWithoutChangingDurationsOrDeferredEvents(): void
@@ -252,7 +252,7 @@ final class SingleLapDurationRepairerTest extends TestCase
             }
         }
         $failure = ['status' => 'FAILED', 'errors' => [['message' => 'FIT failed Garmin required check "Lap Message Start Time and Timestamp are Valid".']]];
-        self::assertSame([PreservingActivityRepairer::FRONT_SUMMARY_CLOCKS, SingleLapDurationRepairer::IMPOSSIBLE_START_RULE, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedLapPartitionStartRepairer::NATIVE_RULE], (new PreservingActivityRepairer())->rulesForFailure($failure, null));
+        self::assertSame([PreservingActivityRepairer::FRONT_SUMMARY_CLOCKS, SingleLapDurationRepairer::IMPOSSIBLE_START_RULE, \Endurance\FitRepair\Internal\Rule\RecordedLapPartitionStartRepairer::NATIVE_RULE], (new PreservingActivityRepairer())->rulesForFailure($failure, null));
     }
 
     private function assertStartDeclined(string $source): void

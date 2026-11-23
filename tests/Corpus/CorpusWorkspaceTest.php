@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Corpus;
+namespace Endurance\FitRepair\Tests\Corpus;
 
+use Endurance\FitRepair\Corpus\CorpusWorkspace;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\FitRepair\Corpus\CorpusWorkspace;
 
 final class CorpusWorkspaceTest extends TestCase
 {

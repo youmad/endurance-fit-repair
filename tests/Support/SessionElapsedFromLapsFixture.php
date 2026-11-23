@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Support;
+namespace Endurance\FitRepair\Tests\Support;
 
-use Youmad\Endurance\Fit\Checksum\FitCrc16;
+use Endurance\Fit\Checksum\FitCrc16;
 
 final class SessionElapsedFromLapsFixture
 {

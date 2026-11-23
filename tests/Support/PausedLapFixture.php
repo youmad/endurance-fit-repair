@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Support;
+namespace Endurance\FitRepair\Tests\Support;
 
 /** @internal A two-Lap activity with a recorded twenty-second pause. */
 final class PausedLapFixture

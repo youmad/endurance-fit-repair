@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair;
+namespace Endurance\FitRepair;
 
-use Youmad\Endurance\Fit\Decoder\FitFileReader;
-use Youmad\Endurance\Fit\Exception\FitDecodeException;
-use Youmad\Endurance\Fit\IO\ResourceFitInput;
-use Youmad\Endurance\FitRepair\Geography\CertifiedTimeZoneGrid;
-use Youmad\Endurance\FitRepair\Geography\FitGeographicEvidence;
-use Youmad\Endurance\FitRepair\Geography\GeographicZonePlanner;
-use Youmad\Endurance\FitRepair\Geography\GeographicZoneUnresolved;
-use Youmad\Endurance\FitRepair\Internal\Fit\ActivityHeartRateTail;
-use Youmad\Endurance\FitRepair\Internal\Fit\EditableFitFile;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalEncoder;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\Internal\Fit\RecoveringReader;
-use Youmad\Endurance\FitRepair\Internal\Rule\GeographicActivityTimeRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
+use Endurance\Fit\Decoder\FitFileReader;
+use Endurance\Fit\Exception\FitDecodeException;
+use Endurance\Fit\IO\ResourceFitInput;
+use Endurance\FitRepair\Geography\CertifiedTimeZoneGrid;
+use Endurance\FitRepair\Geography\FitGeographicEvidence;
+use Endurance\FitRepair\Geography\GeographicZonePlanner;
+use Endurance\FitRepair\Geography\GeographicZoneUnresolved;
+use Endurance\FitRepair\Internal\Fit\ActivityHeartRateTail;
+use Endurance\FitRepair\Internal\Fit\EditableFitFile;
+use Endurance\FitRepair\Internal\Fit\PhysicalEncoder;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\Internal\Fit\RecoveringReader;
+use Endurance\FitRepair\Internal\Rule\GeographicActivityTimeRepairer;
+use Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
 
 /** Preserving repair by default; lossy reconstruction requires explicit selection. */
 final readonly class ActivityRepairer

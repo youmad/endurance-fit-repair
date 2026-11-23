@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Command;
+namespace Endurance\FitRepair\Tests\Command;
 
+use Endurance\FitRepair\Command\GeographicZonePlanCommand;
+use Endurance\FitRepair\Corpus\CorpusWorkspace;
+use Endurance\FitRepair\Tests\Support\GeographyFixture;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\FitRepair\Command\GeographicZonePlanCommand;
-use Youmad\Endurance\FitRepair\Corpus\CorpusWorkspace;
-use Youmad\Endurance\FitRepair\Tests\Support\GeographyFixture;
 
 final class GeographicZonePlanCommandTest extends TestCase
 {

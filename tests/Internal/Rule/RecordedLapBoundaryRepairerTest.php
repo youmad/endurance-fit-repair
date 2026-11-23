@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Internal\Rule;
+namespace Endurance\FitRepair\Tests\Internal\Rule;
 
+use Endurance\Fit\Checksum\FitCrc16;
+use Endurance\FitRepair\Internal\Fit\EditableFitFile;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
+use Endurance\FitRepair\Internal\Rule\RecordedLapBoundaryRepairer;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\Tests\Support\RecordedLapBoundaryFixture;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\Fit\Checksum\FitCrc16;
-use Youmad\Endurance\FitRepair\Internal\Fit\EditableFitFile;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\Internal\Rule\PreservingActivityRepairer;
-use Youmad\Endurance\FitRepair\Internal\Rule\RecordedLapBoundaryRepairer;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\Tests\Support\RecordedLapBoundaryFixture;
 
 final class RecordedLapBoundaryRepairerTest extends TestCase
 {
@@ -91,13 +91,13 @@ final class RecordedLapBoundaryRepairerTest extends TestCase
     {
         $repairer = new PreservingActivityRepairer();
         $failure = ['status' => 'FAILED', 'errors' => [['message' => 'failed Garmin required check "Lap Message Start Time and Timestamp are Valid": end delta=2 seconds (whole FIT seconds).']]];
-        self::assertSame([PreservingActivityRepairer::RECORDED_LAP_PARTITION_START, PreservingActivityRepairer::PAUSED_LAP_PARTITION_START, RecordedLapBoundaryRepairer::RULE, PreservingActivityRepairer::RECORDED_LAP_END, PreservingActivityRepairer::FRONT_SUMMARY_CLOCKS, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedLapPartitionStartRepairer::NATIVE_RULE], $repairer->rulesForFailure($failure, null));
+        self::assertSame([PreservingActivityRepairer::RECORDED_LAP_PARTITION_START, PreservingActivityRepairer::PAUSED_LAP_PARTITION_START, RecordedLapBoundaryRepairer::RULE, PreservingActivityRepairer::RECORDED_LAP_END, PreservingActivityRepairer::FRONT_SUMMARY_CLOCKS, \Endurance\FitRepair\Internal\Rule\RecordedLapPartitionStartRepairer::NATIVE_RULE], $repairer->rulesForFailure($failure, null));
         $failure['status'] = 'PASS';
         self::assertSame([], $repairer->rulesForFailure($failure, null));
         $failure['status'] = 'FAILED';
         $failure['errors'][0]['message'] = str_replace('end delta=2 seconds', 'end delta=3 seconds', $failure['errors'][0]['message']);
-        self::assertSame([PreservingActivityRepairer::RECORDED_LAP_PARTITION_START, PreservingActivityRepairer::PAUSED_LAP_PARTITION_START, RecordedLapBoundaryRepairer::RULE, PreservingActivityRepairer::RECORDED_LAP_END, PreservingActivityRepairer::FRONT_SUMMARY_CLOCKS, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedLapPartitionStartRepairer::NATIVE_RULE], $repairer->rulesForFailure($failure, null));
+        self::assertSame([PreservingActivityRepairer::RECORDED_LAP_PARTITION_START, PreservingActivityRepairer::PAUSED_LAP_PARTITION_START, RecordedLapBoundaryRepairer::RULE, PreservingActivityRepairer::RECORDED_LAP_END, PreservingActivityRepairer::FRONT_SUMMARY_CLOCKS, \Endurance\FitRepair\Internal\Rule\RecordedLapPartitionStartRepairer::NATIVE_RULE], $repairer->rulesForFailure($failure, null));
         $failure['errors'][0]['message'] = str_replace('end delta=3 seconds', 'end delta=4 seconds', $failure['errors'][0]['message']);
-        self::assertSame([PreservingActivityRepairer::FRONT_SUMMARY_CLOCKS, PreservingActivityRepairer::IMPOSSIBLE_SINGLE_LAP_START, \Youmad\Endurance\FitRepair\Internal\Rule\RecordedLapPartitionStartRepairer::NATIVE_RULE], $repairer->rulesForFailure($failure, null));
+        self::assertSame([PreservingActivityRepairer::FRONT_SUMMARY_CLOCKS, PreservingActivityRepairer::IMPOSSIBLE_SINGLE_LAP_START, \Endurance\FitRepair\Internal\Rule\RecordedLapPartitionStartRepairer::NATIVE_RULE], $repairer->rulesForFailure($failure, null));
     }
 }

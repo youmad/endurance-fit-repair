@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Command;
+namespace Endurance\FitRepair\Tests\Command;
 
+use Endurance\FitRepair\Command\CorpusRepairCommand;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\FitRepair\Command\CorpusRepairCommand;
 
 final class CorpusRepairCommandTest extends TestCase
 {

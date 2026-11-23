@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Internal\Fit;
+namespace Endurance\FitRepair\Internal\Fit;
 
-use Youmad\Endurance\Fit\Checksum\FitCrc16;
-use Youmad\Endurance\Fit\Raw\FitArchitecture;
-use Youmad\Endurance\FitRepair\RepairFailed;
+use Endurance\Fit\Checksum\FitCrc16;
+use Endurance\Fit\Raw\FitArchitecture;
+use Endurance\FitRepair\RepairFailed;
 
 /** @internal Emits explicit timestamps and a fresh definition for each message. */
 final readonly class PhysicalEncoder

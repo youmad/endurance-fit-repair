@@ -1,11 +1,11 @@
 {
-  "name": "youmad/endurance-fit-repair",
+  "name": "endurance/fit-repair",
   "description": "Preserving FIT activity repair with JSON audit reports",
   "type": "library",
   "license": "MPL-2.0",
   "require": {
     "php": "^8.5",
-    "youmad/endurance-fit": "^0.1.2"
+    "endurance/fit": "^0.2.0"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.95.25",
@@ -23,12 +23,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Youmad\\Endurance\\FitRepair\\": "src/"
+      "Endurance\\FitRepair\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Youmad\\Endurance\\FitRepair\\Tests\\": "tests/"
+      "Endurance\\FitRepair\\Tests\\": "tests/"
     }
   },
   "archive": {

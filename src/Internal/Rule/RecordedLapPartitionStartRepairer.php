@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Internal\Rule;
+namespace Endurance\FitRepair\Internal\Rule;
 
-use Youmad\Endurance\Fit\Checksum\FitCrc16;
-use Youmad\Endurance\Fit\Decoder\FitFileReader;
-use Youmad\Endurance\Fit\IO\ResourceFitInput;
-use Youmad\Endurance\Fit\Raw\FitArchitecture;
-use Youmad\Endurance\Fit\Raw\RawDataRecord;
-use Youmad\Endurance\FitRepair\Internal\Fit\ActivityHeartRateTail;
-use Youmad\Endurance\FitRepair\Internal\Fit\EditableFitFile;
-use Youmad\Endurance\FitRepair\Internal\Fit\PhysicalMessage;
-use Youmad\Endurance\FitRepair\RepairFailed;
-use Youmad\Endurance\FitRepair\RepairResult;
+use Endurance\Fit\Checksum\FitCrc16;
+use Endurance\Fit\Decoder\FitFileReader;
+use Endurance\Fit\IO\ResourceFitInput;
+use Endurance\Fit\Raw\FitArchitecture;
+use Endurance\Fit\Raw\RawDataRecord;
+use Endurance\FitRepair\Internal\Fit\ActivityHeartRateTail;
+use Endurance\FitRepair\Internal\Fit\EditableFitFile;
+use Endurance\FitRepair\Internal\Fit\PhysicalMessage;
+use Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\RepairResult;
 
 /** Recovers delayed Lap starts within one corroborated elapsed partition. */
 final readonly class RecordedLapPartitionStartRepairer
@@ -74,7 +74,7 @@ final readonly class RecordedLapPartitionStartRepairer
                 if ($native && in_array($number, [21, 101], true)) {
                     throw new RepairFailed('Native unpaused partition excludes Events and pool Lengths.');
                 }
-                if ($front && (101 === $number || (0 === $recordCount && $raw instanceof \Youmad\Endurance\Fit\Raw\RawCompressedTimestampDataMessage))) {
+                if ($front && (101 === $number || (0 === $recordCount && $raw instanceof \Endurance\Fit\Raw\RawCompressedTimestampDataMessage))) {
                     throw new RepairFailed('Front-summary recovery excludes pool Lengths and compressed clocks before the first absolute Record.');
                 }
                 if (0 === $ordinal && 0 !== $number) {

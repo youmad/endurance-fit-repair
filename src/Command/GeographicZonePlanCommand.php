@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Command;
+namespace Endurance\FitRepair\Command;
 
-use Youmad\Endurance\FitRepair\Corpus\CorpusWorkspace;
-use Youmad\Endurance\FitRepair\Geography\CertifiedTimeZoneGrid;
-use Youmad\Endurance\FitRepair\Geography\GeographicZonePlanner;
-use Youmad\Endurance\FitRepair\Geography\RecordedDeviceClockPlanner;
-use Youmad\Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\Corpus\CorpusWorkspace;
+use Endurance\FitRepair\Geography\CertifiedTimeZoneGrid;
+use Endurance\FitRepair\Geography\GeographicZonePlanner;
+use Endurance\FitRepair\Geography\RecordedDeviceClockPlanner;
+use Endurance\FitRepair\RepairFailed;
 
 /** @internal Offline planning; optional device context reads FIT files without editing them. */
 final readonly class GeographicZonePlanCommand

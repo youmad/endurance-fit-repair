@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Geography;
+namespace Endurance\FitRepair\Geography;
 
-use Youmad\Endurance\FitRepair\Corpus\CorpusWorkspace;
-use Youmad\Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\Corpus\CorpusWorkspace;
+use Endurance\FitRepair\RepairFailed;
 
 /**
  * @internal Offline certificates for complete 0.01-degree coordinate cells.

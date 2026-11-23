@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Tests\Command;
+namespace Endurance\FitRepair\Tests\Command;
 
+use Endurance\FitRepair\Command\RepairCommand;
+use Endurance\FitRepair\Tests\Support\FitFixture;
 use PHPUnit\Framework\TestCase;
-use Youmad\Endurance\FitRepair\Command\RepairCommand;
-use Youmad\Endurance\FitRepair\Tests\Support\FitFixture;
 
 final class RepairCommandTest extends TestCase
 {

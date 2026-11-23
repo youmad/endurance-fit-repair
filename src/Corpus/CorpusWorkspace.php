@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Youmad\Endurance\FitRepair\Corpus;
+namespace Endurance\FitRepair\Corpus;
 
-use Youmad\Endurance\FitRepair\RepairFailed;
+use Endurance\FitRepair\RepairFailed;
 
 /** @internal Persistent files are published atomically; source files are never written. */
 final readonly class CorpusWorkspace
